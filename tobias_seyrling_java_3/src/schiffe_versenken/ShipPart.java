@@ -31,5 +31,10 @@ public class ShipPart extends Field {
 		return posY;
 	}
 	
+	public boolean equals(Object obj) {
+		ShipPart shipPart = (ShipPart)obj;
+		return posX == shipPart.getPosX() && posY == shipPart.getPosY();
+	}
+	
 	
 }

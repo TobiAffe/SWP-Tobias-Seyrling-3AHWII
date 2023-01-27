@@ -4,46 +4,25 @@ import java.util.ArrayList;
 
 public class ShipFactory {
 
-	static public Playground init(Playground p) {
-
-		ArrayList<Ship> ships = new ArrayList<Ship>();
-		ships.clear();
-		// Schlachtschiff
-		for (int i = 0; i < 1; i++) {
-			ships.add(new Ship(5));
-		}
-
-		// Zerstörer
-		for (int i = 0; i < 3; i++) {
-			ships.add(new Ship(3));
-		}
-
-		// Kreuzer
-		for (int i = 0; i < 2; i++) {
-			ships.add(new Ship(4));
-		}
-
-		// U-Boote
-		for (int i = 0; i < 4; i++) {
-			ships.add(new Ship(2));
-		}
-
-		for (int y = 0; y < p.getPlayground().length; y++) {
-			for (int x = 0; x < p.getPlayground()[y].length; x++) {
-				p.getPlayground()[y][x] = new Water();
-			}
-		}
+	static public Playground create(Playground p, ArrayList<Ship> ships) {
+		
+		int posX, posY = 0;
+		int count = 0;
 		for (int i = 0; i < ships.size(); i++) {
-			int posX, posY = 0;
-			int count = 0;
 			do {
 				posX = (int) (Math.random() * p.getPlayground().length - 1);
-				posY = (int) (Math.random() * p.getPlayground()[i].length - 1);
+				posY = (int) (Math.random() * p.getPlayground()[0].length - 1);
 				ships.get(i).setDirection();
 				count++;
-				if (count > p.getPlayground().length * 100) {
-					ShipFactory.init(p);
+				if (count > 1000) {
+					System.out.println("ERROR");
+					for (int j = 0; j < ships.get(i).getLength(); j++) {
+						ships.get(i).getShipParts().clear();
+					}
+					p.initPlayground();
 					count = 0;
+					create(p,ships);
+					return p;
 				}
 			} while (!shipCheck(posX, posY, p, ships.get(i)));
 			for (int j = 0; j < ships.get(i).getLength(); j++) {
@@ -64,16 +43,22 @@ public class ShipFactory {
 		}
 		return true;
 	}
-
+	
+	
 	private static boolean shipPartCheck(int posX, int posY, Playground p) {
-		return check(posX, posY, p, true) && check(posX, posY + 1, p, false) && check(posX - 1, posY + 1, p, false)
-				&& check(posX + 1, posY + 1, p, false) && check(posX - 1, posY, p, false)
-				&& check(posX + 1, posY, p, false) && check(posX, posY - 1, p, false)
-				&& check(posX - 1, posY - 1, p, false) && check(posX + 1, posY - 1, p, false);
+		return check(posX, posY, p, true) && 
+				check(posX, posY + 1, p, false) && 
+				check(posX - 1, posY + 1, p, false)
+				&& check(posX + 1, posY + 1, p, false) && 
+				check(posX - 1, posY, p, false)
+				&& check(posX + 1, posY, p, false) && 
+				check(posX, posY - 1, p, false)
+				&& check(posX - 1, posY - 1, p, false) && 
+				check(posX + 1, posY - 1, p, false);
 	}
 
 	private static boolean check(int posX, int posY, Playground p, boolean isMiddleCheckPart) {
-		if (posX < 0 || posY < 0 || posY >= p.getPlayground().length || posX >= p.getPlayground()[posY].length) {
+		if (posX < 0 || posY < 0 || posX >= p.getPlayground().length || posY >= p.getPlayground()[posX].length) {
 			return !isMiddleCheckPart;
 		}
 		return !(p.getPlayground()[posX][posY] instanceof ShipPart);

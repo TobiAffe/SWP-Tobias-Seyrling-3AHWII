@@ -6,21 +6,16 @@ public class Ship {
 	private ArrayList<ShipPart> shipParts = new ArrayList<ShipPart>();
 	private int length;
 	private boolean direction; //true -> wagrecht //false -> senkrecht
-	private boolean sunken;
 	
 	public Ship(int length) {
 		setDirection();
 		this.length = length;;
 	}
 	
-	public boolean isSunken() {
-		boolean s = true;
-		for (int i = 0; i < shipParts.size(); i++) {
-			if(shipParts.get(i).isVisible()) {
-				s = false;
-			}
-		}
-		return false;
+	public Ship(int length, boolean diretion) {
+		setDirection();
+		this.length = length;
+		this.direction = direction;
 	}
 	
 	public ArrayList<ShipPart> getShipParts() {

@@ -10,7 +10,7 @@ public class Playground {
 	}
 
 	public Playground(int lengthY, int lengthX) {;
-		this.playground = new Field[lengthY][lengthX];
+		this.playground = new Field[lengthX][lengthY];
 	}
 	
 	public String toString() {
@@ -37,5 +37,13 @@ public class Playground {
 			str += "\n";
 		}
 		return str;
+	}
+	
+	public void initPlayground() {
+		for (int y = 0; y < playground.length; y++) {
+			for (int x = 0; x < playground[y].length; x++) {
+				playground[y][x] = new Water();
+			}
+		}
 	}
 }
