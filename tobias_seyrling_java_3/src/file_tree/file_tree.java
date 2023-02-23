@@ -29,9 +29,9 @@ public class file_tree {
 		File f = new File("C:\\Users\\tseyr\\Desktop");
 		tree(0, f);
 		System.out.println();
-		System.out.println("dircount" + dir);
-		System.out.println("filecount:" + file);
-		System.out.println("total size:" + size / (1024*1024) + "MB");
+		System.out.println("dircount: " + dir);
+		System.out.println("filecount: " + file);
+		System.out.println("total size: " + (double)(size / (1024*1024)) + "MB");
 	}
 	
 	public static void tree (int level, File f) throws IOException {
